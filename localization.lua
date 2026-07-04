@@ -237,7 +237,7 @@ if locale == "zhCN" then
 	-- Brainwasher
 	SAS_BRAINWASHER_NAME = "地精洗脑装置";
 	SAS_BRAINWASHER_SAVE_PATTERN = "保存第(%d+)(.-)天赋";
-	SAS_BRAINWASHER_LOAD_PATTERN = "启用第(%d+)(.-)天赋%s*%((%d+)/(%d+)/(%d+)%)";
+	SAS_BRAINWASHER_LOAD_PATTERN = "启用第(%d+)(.-)天赋.-%((%d+)/(%d+)/(%d+)%)";
 	SAS_BRAINWASHER_SAVE_SIMPLE_PATTERN = "保存第(%d+).-天赋";
 	SAS_BRAINWASHER_LOAD_SIMPLE_PATTERN = "启用第(%d+).-天赋";
 	SAS_BRAINWASHER_SAVE_LABEL_FMT = "保存第%d%s天赋 - 当前动作条";
