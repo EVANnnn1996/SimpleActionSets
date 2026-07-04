@@ -223,10 +223,10 @@ GameTooltip.SetAction = SAS_SetAction;
 
 SAS_original_GossipTitleButton_OnClick = GossipTitleButton_OnClick
 function SAS_GossipTitleButton_OnClick()
-	if this.type ~= "Available" and this.type ~= "Active" and GossipFrameNpcNameText:GetText() == "Goblin Brainwashing Device" then
+	if this.type ~= "Available" and this.type ~= "Active" and GossipFrameNpcNameText:GetText() == SAS_BRAINWASHER_NAME then
 		local action_text = this:GetText()
-		local _,_,save_spec = string.find(action_text,"Save (%d+).. Specialization")
-		local _,_,load_spec = string.find(action_text,"Activate (%d+).. Specialization")
+		local _,_,save_spec = string.find(action_text, SAS_BRAINWASHER_SAVE_SIMPLE_PATTERN)
+		local _,_,load_spec = string.find(action_text, SAS_BRAINWASHER_LOAD_SIMPLE_PATTERN)
 		if save_spec then
 			SAS_washer_choice = { save = save_spec }
 		elseif load_spec then

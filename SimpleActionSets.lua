@@ -103,7 +103,7 @@ function SASFrame_Event()
 		end
 	elseif event == "PLAYER_ENTERING_WORLD" then
 		this:SetOwner(WorldFrame, "ANCHOR_NONE")
-	elseif event == "GOSSIP_SHOW" and GossipFrameNpcNameText:GetText() == "Goblin Brainwashing Device" then
+	elseif event == "GOSSIP_SHOW" and GossipFrameNpcNameText:GetText() == SAS_BRAINWASHER_NAME then
 
 		local current_wash = SAS_GetCurrentSet()
 		if current_wash then
@@ -122,17 +122,17 @@ function SASFrame_Event()
 			titleButton = getglobal("GossipTitleButton" .. i)
 
 			if titleButton:IsVisible() then
-				local _, _, save_spec, mod = string.find(titleButton:GetText(), "Save (%d+)(..) Specialization")
+				local _, _, save_spec, mod = string.find(titleButton:GetText(), SAS_BRAINWASHER_SAVE_PATTERN)
 				local s = tonumber(save_spec)
 
 				if s and current_wash and s == current_wash then
-					titleButton:SetText(format("Save %d%s Specialization - ACTIVE ACTIONBARS", s, mod))
+					titleButton:SetText(format(SAS_BRAINWASHER_SAVE_LABEL_FMT, s, mod))
 					GossipResize(titleButton)
 				end
 
-				local _, _, load_spec, mod, ta1, ta2, ta3 = string.find(titleButton:GetText(), "Activate (%d+)(..) Specialization %((%d+)/(%d+)/(%d+)%)")
+				local _, _, load_spec, mod, ta1, ta2, ta3 = string.find(titleButton:GetText(), SAS_BRAINWASHER_LOAD_PATTERN)
 				if ta1 and ta1 == tostring(t1) and ta2 == tostring(t2) and ta3 == tostring(t3) then
-					titleButton:SetText(format("Activate %d%s Specialization (%s/%s/%s) - ACTIVE TALENTS", load_spec, mod, t1, t2, t3))
+					titleButton:SetText(format(SAS_BRAINWASHER_LOAD_LABEL_FMT, load_spec, mod, t1, t2, t3))
 					GossipResize(titleButton)
 				end
 			end
@@ -1076,11 +1076,11 @@ function SASMinimap_OnEnter()
 	GameTooltip:SetOwner(this, "ANCHOR_LEFT");
 	GameTooltip:AddLine("Simple Action Sets");
 	if (SAS_Saved[PlrName]["LockMinimapButton"]) then
-		GameTooltip:AddLine(" Minimap button is locked", 0.6, 0.6, 0.6);
+		GameTooltip:AddLine(SAS_TEXT_MINIMAP_LOCKED, 0.6, 0.6, 0.6);
 	elseif (SASMinimapFrame.BeingDragged) then
-		GameTooltip:AddLine(" Right click SAS button to reset", 0.7, 0.7, 0.7);
+		GameTooltip:AddLine(SAS_TEXT_MINIMAP_RESET, 0.7, 0.7, 0.7);
 	else
-		GameTooltip:AddLine(" Drag to reposition minimap button", 0.7, 0.7, 0.7);
+		GameTooltip:AddLine(SAS_TEXT_MINIMAP_DRAGHINT, 0.7, 0.7, 0.7);
 	end
 	GameTooltip:Show();
 end

@@ -570,13 +570,13 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 					</Anchor>
 				</Anchors>
 				<Layers>
-					<Layer level="ARTWORK">
-						<FontString name="$parentText" inherits="GameFontNormal" text="Check All Bars">
-							<Anchors>
-								<Anchor point="LEFT" relativePoint="RIGHT"/>
-							</Anchors>
-						</FontString>
-					</Layer>
+						<Layer level="ARTWORK">
+							<FontString name="$parentText" inherits="GameFontNormal" text="SAS_TEXT_CB_ALLBARS_LABEL">
+								<Anchors>
+									<Anchor point="LEFT" relativePoint="RIGHT"/>
+								</Anchors>
+							</FontString>
+						</Layer>
 				</Layers>
 				<NormalTexture file="Interface\Buttons\UI-CheckBox-Up"/>
 				<PushedTexture file="Interface\Buttons\UI-CheckBox-Down"/>
@@ -934,7 +934,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						</Backdrop>
 						<Layers>
 							<Layer level="ARTWORK">
-								<FontString name="$parentName" inherits="GameFontHighlight" text="Minimap Button">
+								<FontString name="$parentName" inherits="GameFontHighlight" text="SAS_TEXT_OPTIONS_MINIMAP_HEADER">
 									<Anchors>
 										<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT">
 											<Offset>
@@ -1053,7 +1053,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 									</OnValueChanged>
 								</Scripts>
 							</Slider>
-							<Button name="$parentDefault" inherits="OptionsButtonTemplate" text="Default">
+							<Button name="$parentDefault" inherits="OptionsButtonTemplate" text="SAS_TEXT_OPTIONS_DEFAULT">
 								<Anchors>
 									<Anchor point="BOTTOMLEFT">
 										<Offset>
@@ -1067,7 +1067,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 									</OnClick>
 								</Scripts>
 							</Button>
-							<Button name="$parentUndo" inherits="OptionsButtonTemplate" text="Undo">
+							<Button name="$parentUndo" inherits="OptionsButtonTemplate" text="SAS_TEXT_OPTIONS_UNDO">
 								<Anchors>
 									<Anchor point="BOTTOMRIGHT">
 										<Offset>
@@ -1107,7 +1107,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						</Backdrop>
 						<Layers>
 							<Layer level="ARTWORK">
-								<FontString name="$parentName" inherits="GameFontHighlight" text="General Options">
+								<FontString name="$parentName" inherits="GameFontHighlight" text="SAS_TEXT_OPTIONS_GENERAL_HEADER">
 									<Anchors>
 										<Anchor point="BOTTOMLEFT" relativePoint="TOPLEFT">
 											<Offset>
@@ -1400,7 +1400,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						</Anchor>
 					</Anchors>
 				</Texture>
-				<FontString name="$parentTitle" inherits="GameFontNormal" text="Save New Set As">
+				<FontString name="$parentTitle" inherits="GameFontNormal" text="SAS_TEXT_SAVEMENU_TITLE">
 					<Anchors>
 						<Anchor point="TOP" relativeTo="$parentHeaderTexture">
 							<Offset>
@@ -1409,7 +1409,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="$parentEditing" inherits="GameFontNormal" text="Type in the name of the new set:">
+				<FontString name="$parentEditing" inherits="GameFontNormal" text="SAS_TEXT_SAVEMENU_EDITING">
 					<Anchors>
 						<Anchor point="TOP" relativePoint="TOP">
 							<Offset>
@@ -1418,7 +1418,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						</Anchor>
 					</Anchors>
 				</FontString>
-				<FontString name="$parentHelp" inherits="GameFontNormal" text="This name is already used by another set." hidden="true">
+				<FontString name="$parentHelp" inherits="GameFontNormal" text="SAS_TEXT_SAVEMENU_INUSE" hidden="true">
 					<Anchors>
 						<Anchor point="TOP" relativePoint="TOP">
 							<Offset>
@@ -1497,19 +1497,19 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						SASSaveMenu_Save(SASSaveMenuNameEB:GetText());
 					</OnEnterPressed>
 					<OnTextChanged>
-						if ( this:GetText() == "" ) then
-							getglobal(this:GetParent():GetName() .. "OkayButton"):Disable();
-							SASSaveMenuHelp:SetText("|cffff0000You must enter a name for the new set.");
-							SASSaveMenuHelp:Show();
-						elseif ( SAS_SetExists(this:GetText()) ) then
-							getglobal(this:GetParent():GetName() .. "OkayButton"):Enable();
-							SASSaveMenuHelp:SetText("|cffff0000This set already exists, save over it?");
-							SASSaveMenuHelp:Show();
-						else
-							getglobal(this:GetParent():GetName() .. "OkayButton"):Enable();
-							SASSaveMenuHelp:Hide();
-						end
-					</OnTextChanged>
+							if ( this:GetText() == "" ) then
+								getglobal(this:GetParent():GetName() .. "OkayButton"):Disable();
+								SASSaveMenuHelp:SetText(SAS_TEXT_SAVEMENU_NONAME);
+								SASSaveMenuHelp:Show();
+							elseif ( SAS_SetExists(this:GetText()) ) then
+								getglobal(this:GetParent():GetName() .. "OkayButton"):Enable();
+								SASSaveMenuHelp:SetText(SAS_TEXT_SAVEMENU_EXISTS);
+								SASSaveMenuHelp:Show();
+							else
+								getglobal(this:GetParent():GetName() .. "OkayButton"):Enable();
+								SASSaveMenuHelp:Hide();
+							end
+						</OnTextChanged>
 					<OnEscapePressed>
 						HideUIPanel(this:GetParent());
 					</OnEscapePressed>
@@ -1593,7 +1593,7 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 						</Anchor>
 					</Anchors>
 				</Texture>
-				<FontString name="$parentTitle" inherits="GameFontNormal" text="Warning">
+				<FontString name="$parentTitle" inherits="GameFontNormal" text="SAS_TEXT_WARNING_TITLE">
 					<Anchors>
 						<Anchor point="TOP" relativeTo="$parentHeaderTexture">
 							<Offset>
@@ -1617,24 +1617,24 @@ C:\Projects\WoW\Bin\Interface\FrameXML\UI.xsd">
 			</Layer>
 		</Layers>
 		<Frames>
-			<Button name="$parentOkayButton" hidden="false" inherits="GameMenuButtonTemplate" text="Okay">
-				<Size>
-					<AbsDimension x="70" y="21"/>
-				</Size>
-				<Anchors>
-					<Anchor point="BOTTOM" relativePoint="BOTTOM">
-						<Offset>
-							<AbsDimension x="-42" y="20"/>
-						</Offset>
-					</Anchor>
-				</Anchors>
-				<Scripts>
-					<OnClick>
-						SASWarning_Okay();
-					</OnClick>
-				</Scripts>
-			</Button>
-			<Button name="$parentCancelButton" hidden="false" inherits="GameMenuButtonTemplate" text="Cancel">
+			<Button name="$parentOkayButton" hidden="false" inherits="GameMenuButtonTemplate" text="SAS_TEXT_WARNING_OKAY">
+					<Size>
+						<AbsDimension x="70" y="21"/>
+					</Size>
+					<Anchors>
+						<Anchor point="BOTTOM" relativePoint="BOTTOM">
+							<Offset>
+								<AbsDimension x="-42" y="20"/>
+							</Offset>
+						</Anchor>
+					</Anchors>
+					<Scripts>
+						<OnClick>
+							SASWarning_Okay();
+						</OnClick>
+					</Scripts>
+				</Button>
+				<Button name="$parentCancelButton" hidden="false" inherits="GameMenuButtonTemplate" text="SAS_TEXT_WARNING_CANCEL">
 				<Size>
 					<AbsDimension x="70" y="21"/>
 				</Size>
