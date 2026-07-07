@@ -221,18 +221,82 @@ GameTooltip.SetAction = SAS_SetAction;
 -- Hook function for brainwasher user    --
 -------------------------------------------
 
-SAS_original_GossipTitleButton_OnClick = GossipTitleButton_OnClick
-function SAS_GossipTitleButton_OnClick()
-	if this.type ~= "Available" and this.type ~= "Active" and GossipFrameNpcNameText:GetText() == SAS_BRAINWASHER_NAME then
-		local action_text = this:GetText()
-		local _,_,save_spec = string.find(action_text, SAS_BRAINWASHER_SAVE_SIMPLE_PATTERN)
-		local _,_,load_spec = string.find(action_text, SAS_BRAINWASHER_LOAD_SIMPLE_PATTERN)
-		if save_spec then
-			SAS_washer_choice = { save = save_spec }
-		elseif load_spec then
-			SAS_washer_choice = { load = load_spec }
+function SAS_IsBrainwasherGossip()
+	if (DGossipFrameNpcNameText and DGossipFrameNpcNameText:GetText() == SAS_BRAINWASHER_NAME) then
+		return 1;
+	elseif (GossipFrameNpcNameText and GossipFrameNpcNameText:GetText() == SAS_BRAINWASHER_NAME) then
+		return 1;
+	elseif (UnitName and UnitName("npc") == SAS_BRAINWASHER_NAME) then
+		return 1;
+	end
+end
+
+function SAS_RecordBrainwasherChoice(button)
+	if (not button or button.type == "Available" or button.type == "Active" or not SAS_IsBrainwasherGossip()) then
+		return ;
+	end
+
+	local action_text = button:GetText();
+	if (not action_text) then
+		return ;
+	end
+
+	local _, _, save_spec = string.find(action_text, SAS_BRAINWASHER_SAVE_SIMPLE_PATTERN);
+	local _, _, load_spec = string.find(action_text, SAS_BRAINWASHER_LOAD_SIMPLE_PATTERN);
+	if save_spec then
+		SAS_washer_choice = { save = save_spec };
+	elseif load_spec then
+		SAS_washer_choice = { load = load_spec };
+	end
+end
+
+function SAS_RecordDialogUIBrainwasherChoice(buttonIndex)
+	local titleButton;
+	for i = 1, NUMGOSSIPBUTTONS do
+		titleButton = getglobal("DGossipTitleButton" .. i);
+		if (titleButton and titleButton:IsVisible() and titleButton:GetText()) then
+			local _, _, numStr = string.find(titleButton:GetText(), "^(%d+)%.")
+			if (numStr and tonumber(numStr) == tonumber(buttonIndex)) then
+				SAS_RecordBrainwasherChoice(titleButton);
+				return ;
+			end
 		end
 	end
-	SAS_original_GossipTitleButton_OnClick()
 end
-GossipTitleButton_OnClick = SAS_GossipTitleButton_OnClick
+
+SAS_original_GossipTitleButton_OnClick = GossipTitleButton_OnClick;
+function SAS_GossipTitleButton_OnClick()
+	SAS_RecordBrainwasherChoice(this);
+	SAS_original_GossipTitleButton_OnClick();
+end
+GossipTitleButton_OnClick = SAS_GossipTitleButton_OnClick;
+
+function SAS_HookDialogUIGossip()
+	if (DGossipTitleButton_OnClick and not SAS_original_DGossipTitleButton_OnClick) then
+		SAS_original_DGossipTitleButton_OnClick = DGossipTitleButton_OnClick;
+		function SAS_DGossipTitleButton_OnClick()
+			SAS_RecordBrainwasherChoice(this);
+			SAS_original_DGossipTitleButton_OnClick();
+		end
+		DGossipTitleButton_OnClick = SAS_DGossipTitleButton_OnClick;
+	end
+
+	if (DGossipTitleButton_OnClick_Direct and not SAS_original_DGossipTitleButton_OnClick_Direct) then
+		SAS_original_DGossipTitleButton_OnClick_Direct = DGossipTitleButton_OnClick_Direct;
+		function SAS_DGossipTitleButton_OnClick_Direct(button)
+			SAS_RecordBrainwasherChoice(button);
+			SAS_original_DGossipTitleButton_OnClick_Direct(button);
+		end
+		DGossipTitleButton_OnClick_Direct = SAS_DGossipTitleButton_OnClick_Direct;
+	end
+
+	if (DGossipSelectOption and not SAS_original_DGossipSelectOption) then
+		SAS_original_DGossipSelectOption = DGossipSelectOption;
+		function SAS_DGossipSelectOption(buttonIndex)
+			SAS_RecordDialogUIBrainwasherChoice(buttonIndex);
+			SAS_original_DGossipSelectOption(buttonIndex);
+		end
+		DGossipSelectOption = SAS_DGossipSelectOption;
+	end
+end
+SAS_HookDialogUIGossip();

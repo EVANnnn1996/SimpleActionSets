@@ -97,13 +97,17 @@ function UpdateInventoryDebounced()
 end
 
 function SASFrame_Event()
+	if (SAS_HookDialogUIGossip) then
+		SAS_HookDialogUIGossip();
+	end
+
 	if event == "ADDON_LOADED" and arg1 == "SimpleActionSets" then
 		if not SAS_Saved then
 			SAS_Saved = {}
 		end
 	elseif event == "PLAYER_ENTERING_WORLD" then
 		this:SetOwner(WorldFrame, "ANCHOR_NONE")
-	elseif event == "GOSSIP_SHOW" and GossipFrameNpcNameText:GetText() == SAS_BRAINWASHER_NAME then
+	elseif event == "GOSSIP_SHOW" and ((SAS_IsBrainwasherGossip and SAS_IsBrainwasherGossip()) or (GossipFrameNpcNameText and GossipFrameNpcNameText:GetText() == SAS_BRAINWASHER_NAME)) then
 
 		local current_wash = SAS_GetCurrentSet()
 		if current_wash then
